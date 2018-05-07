@@ -34,7 +34,6 @@ param(
 [string]$alias = "RocketCat",
 [string]$emoji = ":robot:",
 [string]$webhook,
-[Parameter(ValueFromPipelineBYPropertyName = $true)]
 [object]$attachment
 )
 $debug = $PSCmdlet.MyInvocation.BoundParameters["Verbose"].IsPresent
@@ -49,6 +48,7 @@ if((($text) -or ($attachment)) -and ($webhook)){
         $body.info.title = $attachment.title
         $body.info.text = $attachment.text
         $body.info.collapsed = $attachment.collapsed
+        $body.info.color = $attachment.color
         if($attachment.fields){
             $body.info.fields = @()
             foreach($field in $attachment.fields){
