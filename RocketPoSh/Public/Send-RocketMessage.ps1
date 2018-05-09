@@ -36,7 +36,12 @@ param(
 [string]$webhook,
 [object]$attachment
 )
-$debug = $PSCmdlet.MyInvocation.BoundParameters["Verbose"].IsPresent
+try {
+    $debug = $PSCmdlet.MyInvocation.BoundParameters["Verbose"].IsPresent 
+}
+catch {
+    Write-Warning $_
+}
 
 $body += @{}
 if((($text) -or ($attachment)) -and ($webhook)){
@@ -60,7 +65,7 @@ if((($text) -or ($attachment)) -and ($webhook)){
 
     $json = convertto-json $body -depth 5
 
-    invoke-webrequest -contenttype "application/json" -method post -uri $uri -Body $json | out-null
+    invoke-webrequest -contenttype "application/json" -method post -uri $uri -Body $json -UseBasicParsing | out-null
 }
 elseif(!$webhook){throw "Need a webhook URL. Administration>Integrations>*desired webhook*>Webhook URL"}
 elseif(!$text -and !$attachment){throw "Need text to send"}
