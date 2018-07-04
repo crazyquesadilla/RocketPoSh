@@ -68,7 +68,7 @@
         invoke-webrequest -contenttype "application/json" -method post -uri $uri -Body $json -UseBasicParsing | out-null
     }
     elseif(!$webhook){throw "Need a webhook URL. Administration>Integrations>*desired webhook*>Webhook URL"}
-    elseif(!$text -and !$attachment){throw "Need text to send"}
+    elseif(!$text -and !$attachment){throw "Need text to send."}
     
     if($debug){$json}else{"Sent!"}
 }
